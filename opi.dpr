@@ -1,4 +1,4 @@
-
+vlad
 Program TextTrainingProgram;
 
 Uses
