@@ -1,4 +1,4 @@
-Program TextTrainingProgram;
+ogram TextTrainingProgram;
 
 uses
   SysUtils;
