@@ -1,7 +1,7 @@
 Program TextTrainingProgram;
 
-uses
-  SysUtils;
+Uses
+    SysUtils;
 
 Const
     MaxWidth = 20;
@@ -11,8 +11,7 @@ Type
     TStringArray = Array Of String;
     TArr = Array Of TStringArray;
 
-Function CreateText(Const Dictionary: TStringArray;
-  OriginalString: String): String;
+Function CreateText(Const Dictionary: TStringArray; OriginalString: String): String;
 Var
     I: Integer;
     Word: String;
@@ -50,18 +49,16 @@ End;
 
 Procedure PrintGameRules();
 Begin
-    Writeln('Игра "Тренажер слов": ',#13#10,
-'1.Генерируется строка из 20 английских слов разделенных пробелами.',#13#10,
-'2.Обучаемый вводит строку, пытаясь повторить исходную.',#13#10,
-'3.Программа анализирует введенную строку и заменяет правильные слова новыми из словаря.',#13#10,
-'4.Неправильные слова остаются, но в них удваиваются неверно введенные буквы.',#13#10,
-'5.Если введенная строка верна, ее длина сокращается на 2 символа.',#13#10,
-'6.Игра продолжается до превышения ширины экрана или пока строка не станет нулевой.',#13#10,
-'7.При вводе комбинации "13" игра завершается.');
+    Writeln('Игра "Тренажер слов": ', #13#10, '1.Генерируется строка из 20 английских слов разделенных пробелами.', #13#10,
+        '2.Обучаемый вводит строку, пытаясь повторить исходную.', #13#10,
+        '3.Программа анализирует введенную строку и заменяет правильные слова новыми из словаря.', #13#10,
+        '4.Неправильные слова остаются, но в них удваиваются неверно введенные буквы.', #13#10,
+        '5.Если введенная строка верна, ее длина сокращается на 2 символа.', #13#10,
+        '6.Игра продолжается до превышения ширины экрана или пока строка не станет нулевой.', #13#10,
+        '7.При вводе комбинации "13" игра завершается.');
 End;
 
-Function InputTextFromFile(Const Num: Integer; OriginalString: String)
-  : TStringArray;
+Function InputTextFromFile(Const Num: Integer; OriginalString: String): TStringArray;
 Var
     PathToIn: String;
     Arr: TArr;
@@ -131,39 +128,42 @@ Begin
             OriginalString := Orr[0];
         End;
     End
-    Else If (LenStr > 6) And (LenStr < 14) Then
-    Begin
-        While ResultValue < Num Do
+    Else
+        If (LenStr > 6) And (LenStr < 14) Then
         Begin
-            RandomNumber := Random(6) + 2;
-            ResultValue := ResultValue + RandomNumber + 1;
-            Orr := InputTextFromFile(RandomNumber, OriginalString);
-            OriginalString := Orr[0];
-        End;
-    End
-    Else If LenStr = 6 Then
-    Begin
-        RandomNumber := 2;
-        Orr := InputTextFromFile(RandomNumber, OriginalString);
-        OriginalString := Orr[0];
-        RandomNumber := 3;
-        Orr := InputTextFromFile(RandomNumber, OriginalString);
-        OriginalString := Orr[0];
-    End
-    Else If LenStr = 4 Then
-    Begin
-        RandomNumber := 4;
-        Orr := InputTextFromFile(RandomNumber, OriginalString);
-        OriginalString := Orr[0];
-    End
-    Else If LenStr = 2 Then
-    Begin
-        RandomNumber := 2;
-        Orr := InputTextFromFile(RandomNumber, OriginalString);
-        OriginalString := Orr[0];
-    End;
-    If (LenStr > 6) And (ResultValue < LenStr) And (LenStr - ResultValue <> 1)
-      And (LenStr - ResultValue <> 9) Then
+            While ResultValue < Num Do
+            Begin
+                RandomNumber := Random(6) + 2;
+                ResultValue := ResultValue + RandomNumber + 1;
+                Orr := InputTextFromFile(RandomNumber, OriginalString);
+                OriginalString := Orr[0];
+            End;
+        End
+        Else
+            If LenStr = 6 Then
+            Begin
+                RandomNumber := 2;
+                Orr := InputTextFromFile(RandomNumber, OriginalString);
+                OriginalString := Orr[0];
+                RandomNumber := 3;
+                Orr := InputTextFromFile(RandomNumber, OriginalString);
+                OriginalString := Orr[0];
+            End
+            Else
+                If LenStr = 4 Then
+                Begin
+                    RandomNumber := 4;
+                    Orr := InputTextFromFile(RandomNumber, OriginalString);
+                    OriginalString := Orr[0];
+                End
+                Else
+                    If LenStr = 2 Then
+                    Begin
+                        RandomNumber := 2;
+                        Orr := InputTextFromFile(RandomNumber, OriginalString);
+                        OriginalString := Orr[0];
+                    End;
+    If (LenStr > 6) And (ResultValue < LenStr) And (LenStr - ResultValue <> 1) And (LenStr - ResultValue <> 9) Then
     Begin
         RandomNumber := LenStr - ResultValue;
         ResultValue := ResultValue + RandomNumber;
@@ -173,9 +173,8 @@ Begin
     CreateStr := OriginalString;
 End;
 
-Function SecondIncorrectLetters(Const OriginalString: String;
-  Var Input: String): String;
-// Удвоение букв + до или после
+Function SecondIncorrectLetters(Const OriginalString: String; Var Input: String): String;
+//Удвоение букв + до или после
 Var
     CorrectedString: String;
     I: Integer;
@@ -187,26 +186,23 @@ Begin
         Begin
             If I >= 1 Then
             Begin
-                CorrectedString := CorrectedString + OriginalString[I - 1] +
-                  OriginalString[I] + OriginalString[I];
+                CorrectedString := CorrectedString + OriginalString[I - 1] + OriginalString[I] + OriginalString[I];
             End
             Else
             Begin
-                CorrectedString := CorrectedString + OriginalString[I] +
-                  OriginalString[I] + OriginalString[I + 1];
+                CorrectedString := CorrectedString + OriginalString[I] + OriginalString[I] + OriginalString[I + 1];
             End;
         End
         Else
         Begin
-            // Добавляем совпадающий символ к результату
+            //Добавляем совпадающий символ к результату
             CorrectedString := CorrectedString + OriginalString[I];
         End;
     End;
     SecondIncorrectLetters := CorrectedString;
 End;
 
-Function FirstIncorrectLetters(Var OriginalString: String;
-  Const Input: String): String;
+Function FirstIncorrectLetters(Var OriginalString: String; Const Input: String): String;
 Var
     CorrectedString: String;
     I: Integer;
@@ -215,8 +211,7 @@ Begin
     Begin
         If OriginalString[I] <> Input[I] Then
         Begin
-            CorrectedString := CorrectedString + OriginalString[I] +
-              OriginalString[I];
+            CorrectedString := CorrectedString + OriginalString[I] + OriginalString[I];
         End
         Else
         Begin
@@ -226,78 +221,72 @@ Begin
     FirstIncorrectLetters := CorrectedString;
 End;
 
-Function TherdIncorrectLetters(Const OriginalString: String;
-  Var Input: String): String;
-// Удвоение слов
+Function TherdIncorrectLetters(Const OriginalString: String; Var Input: String): String;
+//Удвоение слов
 Var
     CorrectedString, WordIn, WordOr: String;
     I, StartIdx, StartOr, EndIn, EndOr: Integer;
 Begin
-    // Инициализируем начальный индекс для поиска слов в строке str1
+    //Инициализируем начальный индекс для поиска слов в строке str1
     StartIdx := 1;
 
-    // Проверяем каждое слово из второй строки
+    //Проверяем каждое слово из второй строки
     For I := 1 To Length(Input) Do
     Begin
-        // Если текущий символ является пробелом или достигнут конец строки
+        //Если текущий символ является пробелом или достигнут конец строки
         If (Input[I] = ' ') Or (I = Length(Input)) Then
         Begin
-            // Получаем слово из второй строки
+            //Получаем слово из второй строки
             If I = Length(Input) Then
                 WordIn := Copy(Input, StartIdx, I - StartIdx + 1)
             Else
                 Wordin := Copy(Input, StartIdx, I - StartIdx);
 
-            // Ищем совпадение в первой строке
+            //Ищем совпадение в первой строке
             StartIdx := 1;
             While StartIdx <= Length(OriginalString) Do
             Begin
-                // Если текущий символ является пробелом или достигнут конец строки
-                If (OriginalString[StartIdx] = ' ') Or
-                  (StartIdx = Length(OriginalString)) Then
+                //Если текущий символ является пробелом или достигнут конец строки
+                If (OriginalString[StartIdx] = ' ') Or (StartIdx = Length(OriginalString)) Then
                 Begin
-                    // Получаем слово из первой строки
+                    //Получаем слово из первой строки
                     If StartIdx = Length(OriginalString) Then
-                        Wordor := Copy(OriginalString, StartIdx,
-                          StartIdx - StartIdx + 1)
+                        Wordor := Copy(OriginalString, StartIdx, StartIdx - StartIdx + 1)
                     Else
-                        Wordor := Copy(OriginalString, StartIdx,
-                          StartIdx - StartIdx);
+                        Wordor := Copy(OriginalString, StartIdx, StartIdx - StartIdx);
 
-                    // Сравниваем слова
+                    //Сравниваем слова
                     If CompareText(Wordin, Wordor) <> 0 Then
                     Begin
-                        // Слово не найдено, добавляем его два раза в результат
-                        CorrectedString := CorrectedString + ' ' + Wordor + ' ' +
-                          Wordor ;
+                        //Слово не найдено, добавляем его два раза в результат
+                        CorrectedString := CorrectedString + ' ' + Wordor + ' ' + Wordor;
                     End
                     Else
                     Begin
-                        // Слово найдено, добавляем его один раз в результат
-                        CorrectedString := CorrectedString + ' ' + Wordor ;
+                        //Слово найдено, добавляем его один раз в результат
+                        CorrectedString := CorrectedString + ' ' + Wordor;
                     End;
 
-                    // Переходим к следующему слову в первой строке
+                    //Переходим к следующему слову в первой строке
                     StartIdx := StartIdx + 1;
                     Break;
                 End;
 
-                // Переходим к следующему символу в первой строке
+                //Переходим к следующему символу в первой строке
                 StartIdx := StartIdx + 1;
             End;
         End;
 
-        // Переходим к следующему символу во второй строке
+        //Переходим к следующему символу во второй строке
         StartIdx := StartIdx + 1;
     End;
     //CorrectedString := TrimLeft(CorrectedString);
-    writeln(CorrectedString);
+    Writeln(CorrectedString);
     TherdIncorrectLetters := CorrectedString;
 End;
 
-Function FothIncorrectLetters(Const OriginalString: String;
-  Var Input: String): String;
-// Удвоение строки
+Function FothIncorrectLetters(Const OriginalString: String; Var Input: String): String;
+//Удвоение строки
 Var
     CorrectedString: String;
     I: Integer;
@@ -325,11 +314,13 @@ Begin
         Readln(Input);
         If Input = '13' Then
         Begin
+            Writeln;
             Writeln('Выход из программы-тренажера.');
             Break;
         End;
         If Length(OriginalString) <> Length(Input) Then
         Begin
+            Writeln;
             Writeln('Вы ввели не правильное количество символов!');
             IsCorrect := False;
         End;
@@ -338,8 +329,7 @@ Begin
     UserTry := Input;
 End;
 
-Function LevelRools(Const Level: Integer; OriginalString: String;
-  Input: String): String;
+Function LevelRools(Const Level: Integer; OriginalString: String; Input: String): String;
 Var
     CorrectedString: String;
 Begin
@@ -384,18 +374,24 @@ Begin
                 CorrectedString := LevelRools(Level, OriginalString, Input);
                 If CorrectedString <> OriginalString Then
                 Begin
-                    Writeln('К сожалению вы ощиблись , попробуйте ещё раз. ');
-                    Writeln('Исправленная строка : ', CorrectedString);
+                    Writeln;
+                    Writeln('К сожалению вы ошиблись , попробуйте ещё раз. ');
+                    Writeln;
+                    Writeln(CorrectedString);
                     OriginalString := CorrectedString
                 End
-                Else If Input = OriginalString Then
-                Begin
-                    Writeln('Вы ввели строку верно , продолжайте в том же духе. ');
-                    LenStr := LenStr - LevelStep;
-                    Break;
-                End;
+                Else
+                    If Input = OriginalString Then
+                    Begin
+                        Writeln;
+                        Writeln('Вы ввели строку верно!');
+                        Writeln;
+                        LenStr := LenStr - LevelStep;
+                        Break;
+                    End;
                 If Length(OriginalString) > Width Then
                 Begin
+                    Writeln;
                     Writeln('Вы превысили ширину экрана. Жаль , но вы проиграли.');
                     Exit;
                 End;
@@ -420,5 +416,4 @@ Begin
     Randomize;
     Game();
     Readln;
-
 End.
